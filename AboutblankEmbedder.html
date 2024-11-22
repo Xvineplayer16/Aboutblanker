@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>about:blank embedder</title>
+        <link rel="icon" type="image/png" href="favicon.png">
+        <style>
+            body {
+                background: url('Background.gif') no-repeat center center fixed;
+                background-size: cover;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                height: 100vh;
+                margin: 0;
+                font-family: Arial, Helvetica, sans-serif;
+                cursor: url('Cursor.png'), auto;
+            }
+            .container {
+                background-color: rgba(134, 40, 191, 1);
+                border-radius: 0px;
+                padding: 20px;
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0);
+                text-align: center;
+                width: 80%;
+                max-width: 500px;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                position: relative;
+            }
+            h1, p, input, button {
+                margin: 10px 0;
+                width: 100%;
+                box-sizing: border-box;
+                cursor: inherit;
+            }
+            input, button {
+                padding: 10px;
+                border: 0px solid #ccc;
+                border-radius: 0px;
+            }
+            button {
+                background-color: #303234;
+                color: white;
+                cursor: pointer;
+            }
+            .footer {
+                position: absolute;
+                bottom: 10px;
+                width: 100%;
+                padding: 10px;
+                background-color: rgba(0, 0, 0, 0);
+                color: white;
+                text-align: center;
+            }
+            #playButton {
+                padding: 5px 10px;
+                font-size: 12px;
+                position: absolute;
+                bottom: -40px; /* Positioning it below the container */
+                left: 50%;
+                transform: translateX(-50%);
+                background-color: #303234;
+                color: white;
+                border: none;
+                border-radius: 5px;
+                cursor: pointer;
+            }
+        </style>
+    </head>
+    <body>
+        <script>
+        function create() {
+            var url = document.getElementById('input').value;
+            var win = window.open();
+            win.document.body.style.margin = '0';
+            win.document.body.style.height = '100vh';
+            var iframe = win.document.createElement('iframe');
+            iframe.style.border = 'none';
+            iframe.style.width = '100%';
+            iframe.style.height = '100%';
+            iframe.style.margin = '0';
+            iframe.src = url;
+            win.document.body.appendChild(iframe);
+        }
+
+        const titles = ["About:Blank Embedder", "Embedder by misterfonka", "Site by 4strid", "Your secret tool", "keep this a secret ;)"];
+        let index = 0;
+
+        function changeTitle() {
+            document.title = titles[index];
+            index = (index + 1) % titles.length;
+        }
+
+        setInterval(changeTitle, 5000);
+
+        // Function to play background music
+        window.onload = function() {
+            const audio = document.getElementById('background-music');
+            audio.play().catch(error => {
+                console.log('Autoplay prevented:', error);
+                document.getElementById('playButton').style.display = 'block';
+            });
+        };
+
+        // Function to manually start the music if autoplay is blocked
+        function playMusic() {
+            const audio = document.getElementById('background-music');
+            audio.play();
+            document.getElementById('playButton').style.display = 'none'; // Hide the button after playing
+        }
+        </script>
+        
+        <audio id="background-music" loop>
+            <source src="background-music.mp3" type="audio/mpeg">
+            Your browser does not support the audio element.
+        </audio>
+        <div class="container">
+            <h1>About:Blank Embedder</h1>
+            <p>Enter a URL in the text field below (make sure to add "https://" !!!) and press the Create! button. <br>This will make it so teachers can't see your screen.</p>
+            <input type="text" id='input' autofocus>
+            <button onclick='create()'>Create!</button>
+            <button id="playButton" onclick="playMusic()" style="display:none;">Play Music</button>
+        </div>
+        <div class="footer">
+            <p><marquee>Embedder By misterfonka | Site Designed By 4strid</marquee></p>
+        </div>
+    </body>
+</html>
